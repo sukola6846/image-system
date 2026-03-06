@@ -17,10 +17,13 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "antd": "^6.3.1",
+    "classnames": "^2.5.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
     "@commitlint/cli": "^20.4.3",
     "@commitlint/config-conventional": "^20.4.3",
     "@eslint/js": "^9.39.1",
@@ -36,7 +39,9 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.3.2",
     "prettier": "^3.8.1",
+    "sass": "^1.83.0",
     "typescript": "~5.9.3",
+    "tailwindcss": "^4.0.0",
     "typescript-eslint": "^8.48.0",
     "vite": "^8.0.0-beta.13"
   },

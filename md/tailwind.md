@@ -1,0 +1,113 @@
+# Tailwind CSS 使用指南
+
+本项目使用 **Tailwind CSS v4**，搭配 Vite 构建。
+
+## 安装与配置
+
+### 依赖
+
+```json
+{
+  "devDependencies": {
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.0.0"
+  }
+}
+```
+
+### Vite 配置
+
+在 `vite.config.ts` 中注册插件：
+
+```ts
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+});
+```
+
+### CSS 入口
+
+在 `src/index.css` 中引入 Tailwind：
+
+```css
+@import 'tailwindcss';
+```
+
+## v4 与 v3 的区别
+
+### 无需 tailwind.config.js
+
+Tailwind v4 默认不需要单独的配置文件。如需自定义主题，在 CSS 中使用 `@theme`：
+
+```css
+@import 'tailwindcss';
+
+@theme {
+  /* 自定义颜色 */
+  --color-primary: #3b82f6;
+  --color-secondary: #8b5cf6;
+
+  /* 自定义字体 */
+  --font-sans: 'Inter', sans-serif;
+
+  /* 自定义断点 */
+  --breakpoint-md: 768px;
+}
+```
+
+### 单行引入替代三指令
+
+| v3                      | v4                       |
+| ----------------------- | ------------------------ |
+| `@tailwind base;`       | `@import 'tailwindcss';` |
+| `@tailwind components;` | （已包含）               |
+| `@tailwind utilities;`  | （已包含）               |
+
+`@import 'tailwindcss'` 自动包含：
+
+- **Preflight**（样式重置）
+- **Components**（组件层）
+- **Utilities**（工具类）
+
+## 使用示例
+
+### 基础用法
+
+```tsx
+<div className="flex items-center justify-center min-h-screen bg-gray-100">
+  <h1 className="text-3xl font-bold text-blue-600">Hello Tailwind</h1>
+</div>
+```
+
+### 响应式与状态
+
+```tsx
+<button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 focus:ring-2 rounded-lg md:px-6 lg:text-lg">按钮</button>
+```
+
+### 与 classnames 配合
+
+```tsx
+import cn from 'classnames';
+
+<div className={cn('base-class', isActive && 'active', className)} />;
+```
+
+## 常用工具类速查
+
+| 类型 | 示例                                              |
+| ---- | ------------------------------------------------- |
+| 布局 | `flex`, `grid`, `items-center`, `justify-between` |
+| 间距 | `p-4`, `m-2`, `gap-4`, `space-x-2`                |
+| 尺寸 | `w-full`, `h-screen`, `min-h-screen`              |
+| 文字 | `text-sm`, `font-bold`, `text-center`             |
+| 颜色 | `bg-blue-500`, `text-gray-600`, `border-red-200`  |
+| 圆角 | `rounded`, `rounded-lg`, `rounded-full`           |
+| 阴影 | `shadow`, `shadow-lg`, `shadow-md`                |
+
+## 参考链接
+
+- [Tailwind CSS v4 官方文档](https://tailwindcss.com/docs)
+- [Tailwind CSS v4 升级指南](https://tailwindcss.com/docs/upgrade-guide)
