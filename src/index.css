@@ -8,4 +8,32 @@
   --text-secondary: #64748b;
   --text-disabled: #94a3b8;
   --text-placeholder: #cbd5e1;
+  --radius-base: 8px;
+  --gap-base: 8px;
+  --margin-base: 8px;
+  --padding-base: 8px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-22: 22px;
+  --font-size-24: 24px;
+  --font-size-26: 26px;
+  --font-size-28: 28px;
+  --font-size-30: 30px;
+}
+
+/* Tailwind 主题映射：工具类引用上述 CSS 变量，随主题切换生效 */
+@theme {
+  --color-theme: var(--theme-color);
+  --color-base: var(--bg-base);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-disabled: var(--text-disabled);
+  --color-placeholder: var(--text-placeholder);
+}
+
+#root {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
 }

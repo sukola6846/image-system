@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { type ThemeColorId, DEFAULT_THEME_COLOR_ID } from '@/constants/themeColors';
-import { DEFAULT_BACKGROUND_STYLE_ID, type BackgroundStyleId } from '@/constants/backgroundStyles';
+import { type ThemeColorId, DEFAULT_THEME_COLOR_ID } from '@/constants/theme/themeColors';
+import { DEFAULT_BACKGROUND_STYLE_ID, type BackgroundStyleId } from '@/constants/theme/backgroundStyles';
 
 interface ThemeState {
   /** 主题色 id，对应 THEME_COLORS */

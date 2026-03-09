@@ -14,4 +14,12 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 自动注入 minix.scss，所有 .scss 文件可直接使用 mixin 无需手动引入
+        additionalData: '@use "@/styles/minix.scss" as *;',
+      },
+    },
+  },
 });

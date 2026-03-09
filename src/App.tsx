@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { Button, Modal, Form, Input, Select, Table, Pagination } from 'antd';
+import { Button, Modal, Form, Input, Select, Table, Pagination, ConfigProvider } from 'antd';
 import { useThemeSync } from './hooks/useThemeSync';
+import { useAntdTheme } from './hooks/useAntdTheme';
+import { ThemeSwitcher } from './components/ThemeSwitcher';
 import Home from './pages/home';
+import styles from './app1.module.scss';
 
 function App() {
+  const [themeModalOpen, setThemeModalOpen] = useState(false);
+
   useThemeSync();
-
-  const [count, setCount] = useState(0);
-
-  const [open, setOpen] = useState(false);
+  const antdTheme = useAntdTheme();
 
   const columns = [
     {
@@ -34,16 +36,18 @@ function App() {
   ];
 
   return (
-    <>
-      <div>
-        <h1>App</h1>
-        <p className="text-red-500">This is a test app</p>
-        <Button onClick={() => setOpen(true)} type="primary">
-          Primary Button
+    <ConfigProvider theme={antdTheme}>
+      <div className={`${styles.app} min-h-screen`}>
+        <h1 className={styles.title}>App</h1>
+        <p className="text-secondary">演示主题与背景切换</p>
+        <Button onClick={() => setThemeModalOpen(true)} type="primary">
+          主题设置
         </Button>
-        <Modal title="Basic Modal" open={open} onCancel={() => setOpen(false)}>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+        <Button disabled type="primary">
+          禁用状态
+        </Button>
+        <Modal title="主题与背景切换" open={themeModalOpen} onCancel={() => setThemeModalOpen(false)} footer={null}>
+          <ThemeSwitcher />
         </Modal>
         <Home />
         <Form>
@@ -72,15 +76,7 @@ function App() {
         <Table dataSource={[]} columns={columns} />
         <Pagination total={100} pageSize={10} current={1} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    </ConfigProvider>
   );
 }
 

@@ -2,13 +2,15 @@ import React from 'react';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
+import styles from './index.module.scss';
 
-const items = [
+type MenuItem = Required<MenuProps>['items'][number];
+
+const items: MenuItem[] = [
   {
     key: 'sub1',
     label: 'Navigation One',
     icon: <MailOutlined />,
-
     children: [
       {
         key: 'g1',
@@ -34,7 +36,6 @@ const items = [
     key: 'sub2',
     label: 'Navigation Two',
     icon: <AppstoreOutlined />,
-
     children: [
       { key: '5', label: 'Option 5' },
       { key: '6', label: 'Option 6' },
@@ -55,7 +56,6 @@ const items = [
     key: 'sub4',
     label: 'Navigation Three',
     icon: <SettingOutlined />,
-
     children: [
       { key: '9', label: 'Option 9' },
       { key: '10', label: 'Option 10' },
@@ -75,17 +75,22 @@ const items = [
 ];
 
 const App: React.FC = () => {
-  const onClick: MenuProps['onClick'] = () => {};
+  const onClick: MenuProps['onClick'] = () => {
+    // 菜单点击处理
+  };
 
   return (
-    <Menu
-      onClick={onClick}
-      style={{ width: 256 }}
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
-      mode="inline"
-      items={items as MenuProps['items']}
-    />
+    <div className={styles.menu}>
+      <h1 className={styles.title}>Menu</h1>
+      <Menu
+        onClick={onClick}
+        style={{ width: 256 }}
+        defaultSelectedKeys={['1']}
+        defaultOpenKeys={['sub1']}
+        mode="inline"
+        items={items}
+      />
+    </div>
   );
 };
 

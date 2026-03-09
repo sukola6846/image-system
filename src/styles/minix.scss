@@ -1,0 +1,128 @@
+// 简写：居中
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 垂直居中
+@mixin flex-v-center {
+  display: flex;
+  align-items: center;
+}
+
+// 水平居中
+@mixin flex-h-center {
+  display: flex;
+  justify-content: center;
+}
+
+
+// 单行文字省略
+@mixin text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+// 多行文字省略 (需指定行数)
+@mixin multi-line-ellipsis($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+@mixin border-radius($radius: 4px, $important: false) {
+  @if $important {
+    border-radius: $radius !important;
+  } @else {
+    border-radius: $radius;
+  }
+}
+
+// 三角形
+@mixin triangle($direction: down, $size: 6px, $color: currentColor) {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  
+  @if $direction == up {
+    border-width: 0 $size $size $size;
+    border-color: transparent transparent $color transparent;
+  }
+  @else if $direction == down {
+    border-width: $size $size 0 $size;
+    border-color: $color transparent transparent transparent;
+  }
+  @else if $direction == left {
+    border-width: $size $size $size 0;
+    border-color: transparent $color transparent transparent;
+  }
+  @else if $direction == right {
+    border-width: $size 0 $size $size;
+    border-color: transparent transparent transparent $color;
+  }
+  @else if $direction == top-left {
+    border-width: $size $size 0 0;
+    border-color: $color transparent transparent transparent;
+  }
+  // 可根据需要扩展更多方向
+}
+
+// 定位居中
+@mixin absolute-center($width: null, $height: null) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @if $width {
+    width: $width;
+    margin-left: -($width / 2);
+  } @else {
+    transform: translateX(-50%);
+  }
+  @if $height {
+    height: $height;
+    margin-top: -($height / 2);
+  } @else {
+    transform: translateY(-50%);
+  }
+  @if not $width and not $height {
+    transform: translate(-50%, -50%);
+  }
+}
+
+
+// ==================文字==================
+@mixin text-size-14($font-weight: 400) {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: $font-weight;
+}
+
+@mixin text-size-16($font-weight: 400) {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: $font-weight;
+}
+
+@mixin text-size-18($font-weight: 400) {
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: $font-weight;
+}
+
+@mixin text-size-20($font-weight: 400) {
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: $font-weight;
+}
+
+@mixin text-size-22($font-weight: 400) {
+  font-size: 22px;
+  line-height: 1.5;
+  font-weight: $font-weight;
+}

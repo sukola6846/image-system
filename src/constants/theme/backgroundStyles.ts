@@ -54,11 +54,11 @@ export const BACKGROUND_STYLES: readonly BackgroundStylePreset[] = [
     id: 'warmWhite',
     name: '暖白',
     type: 'light',
-    bg: '#FAF9F6',
+    bg: '#FFF9EA', // 更偏黄的暖白
     textPrimary: '#1A1A1A',
-    textSecondary: '#64748B',
-    textDisabled: '#94A3B8',
-    textPlaceholder: '#CBD5E1',
+    textSecondary: '#756B52', // 比原来偏黄、柔和
+    textDisabled: '#B9A97A',
+    textPlaceholder: '#E8E2C8',
   },
   // 深色风格
   {

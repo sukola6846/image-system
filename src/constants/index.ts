@@ -4,7 +4,7 @@ export {
   getThemeColorValue,
   type ThemeColorItem,
   type ThemeColorId,
-} from './themeColors';
+} from './theme/themeColors';
 
 export {
   BACKGROUND_STYLES,
@@ -14,4 +14,4 @@ export {
   type BackgroundStylePreset,
   type BackgroundStyleId,
   type BackgroundStyleType,
-} from './backgroundStyles';
+} from './theme/backgroundStyles';

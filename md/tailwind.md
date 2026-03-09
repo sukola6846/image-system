@@ -71,13 +71,54 @@ Tailwind v4 默认不需要单独的配置文件。如需自定义主题，在 C
 - **Components**（组件层）
 - **Utilities**（工具类）
 
+## 主题变量工具类
+
+项目已将主题色与背景风格同步到 Tailwind，以下工具类会随用户切换主题自动生效：
+
+| 工具类             | 用途                           |
+| ------------------ | ------------------------------ |
+| `bg-theme`         | 主题色背景（按钮、卡片强调等） |
+| `text-theme`       | 主题色文字（链接、图标等）     |
+| `border-theme`     | 主题色边框                     |
+| `bg-base`          | 页面/容器背景                  |
+| `text-primary`     | 主要文字色（标题、正文）       |
+| `text-secondary`   | 次要文字色（说明、辅助）       |
+| `text-disabled`    | 禁用态文字色                   |
+| `text-placeholder` | 占位符文字色                   |
+
+### 主题变量使用示例
+
+```tsx
+{
+  /* 页面容器：使用背景色 + 主要文字色 */
+}
+<div className="min-h-screen bg-base text-primary">
+  <h1 className="text-2xl font-bold text-primary">页面标题</h1>
+  <p className="text-secondary">辅助说明文字</p>
+
+  {/* 主题色强调：按钮、链接 */}
+  <button className="px-4 py-2 bg-theme text-white rounded-lg hover:opacity-90">主要按钮</button>
+  <a href="#" className="text-theme hover:underline">
+    链接
+  </a>
+
+  {/* 输入框占位符 */}
+  <input className="border border-gray-300 text-primary placeholder:text-placeholder" placeholder="请输入" />
+
+  {/* 禁用态 */}
+  <button disabled className="text-disabled cursor-not-allowed">
+    禁用按钮
+  </button>
+</div>;
+```
+
 ## 使用示例
 
 ### 基础用法
 
 ```tsx
-<div className="flex items-center justify-center min-h-screen bg-gray-100">
-  <h1 className="text-3xl font-bold text-blue-600">Hello Tailwind</h1>
+<div className="flex items-center justify-center min-h-screen bg-base text-primary">
+  <h1 className="text-3xl font-bold text-theme">Hello Tailwind</h1>
 </div>
 ```
 
@@ -97,15 +138,15 @@ import cn from 'classnames';
 
 ## 常用工具类速查
 
-| 类型 | 示例                                              |
-| ---- | ------------------------------------------------- |
-| 布局 | `flex`, `grid`, `items-center`, `justify-between` |
-| 间距 | `p-4`, `m-2`, `gap-4`, `space-x-2`                |
-| 尺寸 | `w-full`, `h-screen`, `min-h-screen`              |
-| 文字 | `text-sm`, `font-bold`, `text-center`             |
-| 颜色 | `bg-blue-500`, `text-gray-600`, `border-red-200`  |
-| 圆角 | `rounded`, `rounded-lg`, `rounded-full`           |
-| 阴影 | `shadow`, `shadow-lg`, `shadow-md`                |
+| 类型 | 示例                                                                |
+| ---- | ------------------------------------------------------------------- |
+| 布局 | `flex`, `grid`, `items-center`, `justify-between`                   |
+| 间距 | `p-4`, `m-2`, `gap-4`, `space-x-2`                                  |
+| 尺寸 | `w-full`, `h-screen`, `min-h-screen`                                |
+| 文字 | `text-sm`, `font-bold`, `text-center`                               |
+| 颜色 | `bg-theme`, `text-primary`, `bg-base`, `text-secondary`（主题变量） |
+| 圆角 | `rounded`, `rounded-lg`, `rounded-full`                             |
+| 阴影 | `shadow`, `shadow-lg`, `shadow-md`                                  |
 
 ## 参考链接
 

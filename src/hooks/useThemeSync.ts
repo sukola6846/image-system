@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useThemeStore } from '../stores';
-import { getThemeColorValue } from '@/constants/themeColors';
-import { getBackgroundStyle, BACKGROUND_CSS_VARS } from '@/constants/backgroundStyles';
+import { getThemeColorValue } from '@/constants/theme/themeColors';
+import { getBackgroundStyle, BACKGROUND_CSS_VARS } from '@/constants/theme/backgroundStyles';
 
 /**
  * 将 themeStore 中的主题色和背景风格同步到 CSS 变量，供全局使用
