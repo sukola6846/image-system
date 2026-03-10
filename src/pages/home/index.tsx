@@ -1,97 +1,81 @@
 import React from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import { CloudUploadOutlined, PictureOutlined, UnorderedListOutlined, BarChartOutlined } from '@ant-design/icons';
+import cn from 'classnames';
 import styles from './index.module.scss';
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-const items: MenuItem[] = [
-  {
-    key: 'sub1',
-    label: 'Navigation One',
-    icon: <MailOutlined />,
-    children: [
-      {
-        key: 'g1',
-        label: 'Item 1',
-        type: 'group',
-        children: [
-          { key: '1', label: 'Option 1' },
-          { key: '2', label: 'Option 2' },
-        ],
-      },
-      {
-        key: 'g2',
-        label: 'Item 2',
-        type: 'group',
-        children: [
-          { key: '3', label: 'Option 3' },
-          { key: '4', label: 'Option 4' },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'sub2',
-    label: 'Navigation Two',
-    icon: <AppstoreOutlined />,
-    children: [
-      { key: '5', label: 'Option 5' },
-      { key: '6', label: 'Option 6' },
-      {
-        key: 'sub3',
-        label: 'Submenu',
-        children: [
-          { key: '7', label: 'Option 7' },
-          { key: '8', label: 'Option 8' },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'divider',
-  },
-  {
-    key: 'sub4',
-    label: 'Navigation Three',
-    icon: <SettingOutlined />,
-    children: [
-      { key: '9', label: 'Option 9' },
-      { key: '10', label: 'Option 10' },
-      { key: '11', label: 'Option 11' },
-      { key: '12', label: 'Option 12' },
-    ],
-  },
-  {
-    key: 'grp',
-    label: 'Group',
-    type: 'group',
-    children: [
-      { key: '13', label: 'Option 13' },
-      { key: '14', label: 'Option 14' },
-    ],
-  },
+const stats = [
+  { label: '总图片数', value: '12,847' },
+  { label: '本月上传', value: '328' },
+  { label: '存储占用', value: '2.4GB' },
 ];
 
-const App: React.FC = () => {
-  const onClick: MenuProps['onClick'] = () => {
-    // 菜单点击处理
-  };
+const quickActions = [
+  { icon: <CloudUploadOutlined />, title: '上传图片', desc: '批量或单张上传' },
+  { icon: <PictureOutlined />, title: '图库浏览', desc: '查看与管理素材' },
+  { icon: <UnorderedListOutlined />, title: '标签管理', desc: '分类与检索' },
+  { icon: <BarChartOutlined />, title: '使用统计', desc: '流量与趋势' },
+];
 
+const recentActivity = [
+  { action: '上传 15 张图片', time: '2 分钟前' },
+  { action: '创建标签「产品图」', time: '1 小时前' },
+  { action: '删除 3 张过期素材', time: '昨天' },
+];
+
+const Home: React.FC = () => {
   return (
-    <div className={styles.menu}>
-      <h1 className={styles.title}>Menu</h1>
-      <Menu
-        onClick={onClick}
-        style={{ width: 256 }}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['sub1']}
-        mode="inline"
-        items={items}
-      />
+    <div className={styles.home}>
+      {/* Hero 区块 */}
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <span className={styles.heroTag}>IMAGE SYSTEM</span>
+          <h1 className={styles.heroTitle}>
+            掌控你的
+            <br />
+            <span className={styles.heroAccent}>视觉资产</span>
+          </h1>
+          <p className={styles.heroDesc}>上传、管理、分发 —— 一站式图片中枢</p>
+        </div>
+      </section>
+
+      {/* 数据统计区块 */}
+      <section className={styles.stats}>
+        {stats.map((item) => (
+          <div key={item.label} className={styles.statCard}>
+            <span className={styles.statValue}>{item.value}</span>
+            <span className={styles.statLabel}>{item.label}</span>
+          </div>
+        ))}
+      </section>
+
+      {/* 快捷操作区块 */}
+      <section className={styles.actions}>
+        <h2 className={styles.sectionTitle}>快捷入口</h2>
+        <div className={styles.actionGrid}>
+          {quickActions.map((item) => (
+            <button key={item.title} type="button" className={styles.actionCard}>
+              <span className={styles.actionIcon}>{item.icon}</span>
+              <span className={styles.actionTitle}>{item.title}</span>
+              <span className={styles.actionDesc}>{item.desc}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* 最近动态区块 */}
+      <section className={styles.activity}>
+        <h2 className={styles.sectionTitle}>最近动态</h2>
+        <div className={styles.activityList}>
+          {recentActivity.map((item, i) => (
+            <div key={i} className={cn(styles.activityItem, i === 0 && styles.activityItemFirst)}>
+              <span className={styles.activityAction}>{item.action}</span>
+              <span className={styles.activityTime}>{item.time}</span>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };
 
-export default App;
+export default Home;

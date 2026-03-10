@@ -1,0 +1,42 @@
+.login {
+  min-height: 100vh;
+  @include flex-center;
+  background-color: var(--bg-base);
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 12px;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--text-placeholder);
+}
+
+.title {
+  margin: 0 0 8px;
+  @include text-size-22(600);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0 0 32px;
+  @include text-size-14;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.form {
+  .inputIcon {
+    color: var(--text-secondary);
+  }
+}
+
+.submitItem {
+  margin-bottom: 0;
+  margin-top: 24px;
+}

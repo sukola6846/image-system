@@ -1,9 +1,0 @@
-
-.app{
-  @include text-size-16;
-  .title {
-    @include flex-center;
-    color: var(--text-primary);
-  }
-
-}
