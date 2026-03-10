@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuthStore } from '@/stores/authStore';
 import styles from './index.module.scss';
 
 interface LoginFormValues {
@@ -10,10 +12,15 @@ interface LoginFormValues {
 
 const Login: React.FC = () => {
   const [form] = Form.useForm<LoginFormValues>();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const login = useAuthStore((s) => s.login);
 
   const onFinish = (values: LoginFormValues) => {
-    // TODO: 调用登录 API
-    void values;
+    // TODO: 接入真实登录 API，当前为演示用
+    login(`${values.username}-token`, ['admin']);
+    const from = searchParams.get('from') ?? '/';
+    navigate(from, { replace: true });
   };
 
   return (

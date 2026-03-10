@@ -1,0 +1,5 @@
+.notFound {
+  min-height: 100vh;
+  @include flex-center;
+  background-color: var(--bg-base);
+}

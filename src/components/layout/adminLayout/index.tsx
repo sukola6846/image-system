@@ -1,14 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
-import { Layout, Menu, Button, Modal } from 'antd';
-import { MenuFoldOutlined, MenuUnfoldOutlined, BgColorsOutlined } from '@ant-design/icons';
-import { ThemeSwitcher } from '@/components/ThemeSwitcher';
-import { MENU_ITEMS } from './menuConfig';
+import { Layout, Menu, Button, Dropdown } from 'antd';
+import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { protectedRouteDefinitions } from '@/router/routeDefinitions';
+import { buildMenuFromRoutes, getOpenKeysForPathname } from '@/router/utils/buildMenuFromRoutes';
 import styles from './index.module.scss';
+import { useAuthStore } from '@/stores';
 
 const SIDER_COLLAPSED_KEY = 'admin-sider-collapsed';
 
-const AdminLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
+const AdminLayout: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathname = location.pathname || '/';
+  const logout = useAuthStore((s) => s.logout);
+
+  const menuItems = useMemo(() => buildMenuFromRoutes(protectedRouteDefinitions), []);
+
   const [collapsed, setCollapsed] = useState(() => {
     try {
       const stored = localStorage.getItem(SIDER_COLLAPSED_KEY);
@@ -17,11 +26,9 @@ const AdminLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
       return false;
     }
   });
-  const [themeModalOpen, setThemeModalOpen] = useState(false);
-  const [selectedKeys, setSelectedKeys] = useState<string[]>(() => {
-    const pathname = window.location.pathname || '/';
-    return [pathname];
-  });
+  const selectedKeys = useMemo(() => [pathname], [pathname]);
+
+  const openKeys = useMemo(() => getOpenKeysForPathname(protectedRouteDefinitions, pathname), [pathname]);
 
   useEffect(() => {
     try {
@@ -32,8 +39,35 @@ const AdminLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   }, [collapsed]);
 
   const handleMenuClick: React.ComponentProps<typeof Menu>['onClick'] = ({ key }) => {
-    setSelectedKeys([key]);
-    // 后续接入 React Router 时可使用 navigate(key)
+    if (typeof key === 'string' && key.startsWith('/')) {
+      navigate(key);
+    }
+  };
+
+  const userMenuItems = [
+    {
+      key: '/profile',
+      icon: <UserOutlined />,
+      label: '个人中心',
+    },
+    {
+      type: 'divider' as const,
+    },
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: '退出登录',
+      danger: true,
+    },
+  ];
+
+  const handleUserMenuClick = ({ key }: { key: string }) => {
+    if (key === 'logout') {
+      logout();
+      navigate('/login', { replace: true });
+    } else if (key.startsWith('/')) {
+      navigate(key);
+    }
   };
 
   return (
@@ -53,8 +87,8 @@ const AdminLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         <Menu
           mode="inline"
           selectedKeys={selectedKeys}
-          defaultOpenKeys={['image']}
-          items={MENU_ITEMS}
+          defaultOpenKeys={openKeys}
+          items={menuItems}
           onClick={handleMenuClick}
           className={styles.menu}
         />
@@ -70,26 +104,25 @@ const AdminLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
               className={styles.headerBtn}
               aria-label={collapsed ? '展开菜单' : '收起菜单'}
             />
-            <h2 className={styles.headerTitle}>管理员后台</h2>
+            <h2 className={styles.headerTitle}>欢迎回来</h2>
           </div>
-          <Button
-            type="text"
-            icon={<BgColorsOutlined />}
-            onClick={() => setThemeModalOpen(true)}
-            className={styles.headerBtn}
+          <Dropdown
+            menu={{ items: userMenuItems, onClick: handleUserMenuClick }}
+            trigger={['click']}
+            placement="bottomRight"
           >
-            主题设置
-          </Button>
+            <Button type="text" icon={<UserOutlined />} className={styles.headerBtn}>
+              用户
+            </Button>
+          </Dropdown>
         </Layout.Header>
 
-        <Layout.Content className={styles.content}>{children}</Layout.Content>
+        <Layout.Content className={styles.content}>
+          <Outlet />
+        </Layout.Content>
 
         <Layout.Footer className={styles.footer}>图片管理系统 ©{new Date().getFullYear()} 版权所有</Layout.Footer>
       </Layout>
-
-      <Modal title="主题与背景切换" open={themeModalOpen} onCancel={() => setThemeModalOpen(false)} footer={null}>
-        <ThemeSwitcher />
-      </Modal>
     </Layout>
   );
 };

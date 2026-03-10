@@ -1,8 +1,7 @@
 import { ConfigProvider } from 'antd';
 import { useThemeSync } from './hooks/useThemeSync';
 import { useAntdTheme } from './hooks/useAntdTheme';
-import Home from './pages/home';
-import AdminLayout from './components/layout/adminLayout';
+import { Router } from './router';
 
 function App() {
   useThemeSync();
@@ -10,9 +9,7 @@ function App() {
 
   return (
     <ConfigProvider theme={antdTheme}>
-      <AdminLayout>
-        <Home />
-      </AdminLayout>
+      <Router />
     </ConfigProvider>
   );
 }
