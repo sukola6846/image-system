@@ -75,6 +75,7 @@ export const protectedRouteDefinitions: RouteDefinition[] = [
               title: '图片详情 - 图片管理系统',
               menu: { hide: true, label: '详情' },
               breadcrumb: '图片详情',
+              animation: { type: 'slide-left', duration: 250 },
               keepAlive: false,
               auth: [],
               roles: [],
@@ -87,6 +88,7 @@ export const protectedRouteDefinitions: RouteDefinition[] = [
               title: '上传图片 - 图片管理系统',
               menu: { label: '上传图片', icon: 'UploadOutlined', order: 1 },
               breadcrumb: '上传图片',
+              animation: { type: 'slide-right', duration: 200 },
               keepAlive: false,
               auth: [],
               roles: [],
@@ -98,6 +100,7 @@ export const protectedRouteDefinitions: RouteDefinition[] = [
             handle: {
               title: '回收站 - 图片管理系统',
               menu: { label: '回收站', icon: 'DeleteOutlined', order: 2 },
+              animation: { type: 'zoom', duration: 200 },
               breadcrumb: '回收站',
               keepAlive: false,
               auth: [],

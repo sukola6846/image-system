@@ -1,0 +1,102 @@
+/**
+ * View Transitions API 全局动画
+ * 配合 AnimatedOutlet 的 view-transition-name: page-main 使用
+ * 通过 --vt-old-animation、--vt-new-animation、--vt-duration 动态控制
+ */
+
+@keyframes vt-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vt-slide-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+@keyframes vt-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vt-slide-out-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}
+
+@keyframes vt-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes vt-zoom-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes vt-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/**
+ * 下面两个伪类 ::view-transition-old(page-main) 和 ::view-transition-new(page-main)
+ * 是专门作用于设置了 view-transition-name: page-main 的元素的
+ * 用于为页面切换时的“旧页面”和“新页面”内容分别添加动画
+ */
+::view-transition-old(page-main) {
+  animation: var(--vt-old-animation, vt-fade-out) var(--vt-duration, 200ms) ease-out forwards;
+}
+
+::view-transition-new(page-main) {
+  animation: var(--vt-new-animation, vt-fade-in) var(--vt-duration, 200ms) ease-out forwards;
+}

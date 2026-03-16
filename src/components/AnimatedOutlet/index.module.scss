@@ -1,0 +1,12 @@
+/**
+ * View Transitions 动画包装
+ * 通过 view-transition-name 与全局 view-transitions.css 配合
+ */
+.wrapper {
+  // 设置 view-transition-name: page-main;
+  // 作用：通过 View Transitions API 把此元素（即 .wrapper）作为页面切换动画的主动画承载区，
+  // 会与全局 view-transitions.css 里的 ::view-transition-old(page-main) 和 ::view-transition-new(page-main) 配置结合，
+  // 动画切换时这里的内容会自动应用指定的出入场动画（如淡入淡出、滑动等）
+  view-transition-name: page-main;
+  contain: layout;
+}

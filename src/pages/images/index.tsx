@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, Empty } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigateWithTransition } from '@/router/hooks/useNavigateWithTransition';
 import styles from './index.module.scss';
 
 const ImageList: React.FC = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigateWithTransition();
   const handleDetail = (id: string) => {
     navigate(`/images/detail/${id}`);
   };

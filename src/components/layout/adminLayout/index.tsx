@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import cn from 'classnames';
 import { Layout, Menu, Button, Dropdown } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
@@ -8,6 +8,7 @@ import { buildMenuFromRoutes, getOpenKeysForPathname } from '@/router/utils/buil
 import { filterDefinitionsByAccess } from '@/router/utils/routeAccess';
 import { useRouteTitle } from '@/router/hooks/useRouteTitle';
 import { RouteBreadcrumb } from '@/components/RouteBreadcrumb';
+import { AnimatedOutlet } from '@/components/AnimatedOutlet';
 import styles from './index.module.scss';
 import { useAuthStore } from '@/stores';
 
@@ -45,8 +46,10 @@ const AdminLayout: React.FC = () => {
   }, [collapsed]);
 
   const handleMenuClick: React.ComponentProps<typeof Menu>['onClick'] = ({ key }) => {
+    // 菜单点击触发路由切换动画 相同路由不要跳转
+    if (key === location.pathname) return;
     if (typeof key === 'string' && key.startsWith('/')) {
-      navigate(key);
+      navigate(key, { viewTransition: true } as { viewTransition?: boolean });
     }
   };
 
@@ -72,7 +75,7 @@ const AdminLayout: React.FC = () => {
       logout();
       navigate('/login', { replace: true });
     } else if (key.startsWith('/')) {
-      navigate(key);
+      navigate(key, { viewTransition: true } as { viewTransition?: boolean });
     }
   };
 
@@ -125,7 +128,7 @@ const AdminLayout: React.FC = () => {
         </Layout.Header>
 
         <Layout.Content className={styles.content}>
-          <Outlet />
+          <AnimatedOutlet />
         </Layout.Content>
 
         <Layout.Footer className={styles.footer}>图片管理系统 ©{new Date().getFullYear()} 版权所有</Layout.Footer>
