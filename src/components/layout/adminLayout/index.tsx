@@ -7,6 +7,7 @@ import { protectedRouteDefinitions } from '@/router/routeDefinitions';
 import { buildMenuFromRoutes, getOpenKeysForPathname } from '@/router/utils/buildMenuFromRoutes';
 import { filterDefinitionsByAccess } from '@/router/utils/routeAccess';
 import { useRouteTitle } from '@/router/hooks/useRouteTitle';
+import { RouteBreadcrumb } from '@/components/RouteBreadcrumb';
 import styles from './index.module.scss';
 import { useAuthStore } from '@/stores';
 
@@ -109,7 +110,8 @@ const AdminLayout: React.FC = () => {
               className={styles.headerBtn}
               aria-label={collapsed ? '展开菜单' : '收起菜单'}
             />
-            <h2 className={styles.headerTitle}>欢迎回来</h2>
+
+            <RouteBreadcrumb className={styles.breadcrumb} />
           </div>
           <Dropdown
             menu={{ items: userMenuItems, onClick: handleUserMenuClick }}

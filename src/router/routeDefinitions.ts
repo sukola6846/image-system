@@ -50,6 +50,7 @@ export const protectedRouteDefinitions: RouteDefinition[] = [
             parentKey: 'image',
           },
           breadcrumb: '图片管理',
+          // breadcrumbHide: true,
           keepAlive: true,
           auth: [],
           roles: ['admin'],

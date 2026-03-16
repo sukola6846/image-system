@@ -1,0 +1,8 @@
+.breadcrumbLink {
+  color: var(--text-secondary);
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--theme-color);
+  }
+}
