@@ -1,3 +1,4 @@
+import type { LoaderFunctionArgs } from 'react-router-dom';
 import type { RouteHandle } from './types';
 
 /**
@@ -10,6 +11,10 @@ export interface RouteDefinition {
   handle?: RouteHandle;
   /** 组件路径，mergeDefinitionsToRoutes 通过 lazy(import(path)) 加载，无需组件映射 */
   component?: string;
+  /** 路由级 loader，会覆盖 extra 中的 authLoader，可在此做数据预加载、缓存等 */
+  loader?: (args: LoaderFunctionArgs) => Promise<unknown> | unknown;
+  /** 路由级 revalidate 策略，覆盖默认行为以支持缓存等 */
+  shouldRevalidate?: (args: { currentUrl: URL; nextUrl: URL; defaultShouldRevalidate: boolean }) => boolean;
   children?: RouteDefinition[];
 }
 

@@ -8,33 +8,36 @@ function getAuthState() {
   return useAuthStore.getState();
 }
 
-/**
- * 受保护路由的鉴权 loader
- * 未登录时重定向到 /login，并记录回跳地址
- */
-export function authLoader({ request }: { request: Request }) {
-  const { isAuthenticated } = getAuthState();
+function createAuthLoader(): (args: { request: Request }) => Promise<ReturnType<typeof redirect> | null> {
+  return async ({ request }) => {
+    const { isAuthenticated } = getAuthState();
 
-  if (!isAuthenticated) {
-    const url = new URL(request.url);
-    const from = url.pathname + url.search;
-    return redirect(`/login?from=${encodeURIComponent(from)}`);
-  }
+    if (!isAuthenticated) {
+      const url = new URL(request.url);
+      const from = url.pathname + url.search;
+      return redirect(`/login?from=${encodeURIComponent(from)}`);
+    }
 
-  return null;
+    return null;
+  };
 }
 
-/**
- * 登录页 loader：已登录时重定向到首页或回跳地址
- */
-export function loginRedirectLoader({ request }: { request: Request }) {
-  const { isAuthenticated } = getAuthState();
+function createLoginRedirectLoader(): (args: { request: Request }) => Promise<ReturnType<typeof redirect> | null> {
+  return async ({ request }) => {
+    const { isAuthenticated } = getAuthState();
 
-  if (isAuthenticated) {
-    const url = new URL(request.url);
-    const from = url.searchParams.get('from');
-    return redirect(from && from.startsWith('/') ? from : '/');
-  }
+    if (isAuthenticated) {
+      const url = new URL(request.url);
+      const from = url.searchParams.get('from');
+      return redirect(from && from.startsWith('/') ? from : '/');
+    }
 
-  return null;
+    return null;
+  };
 }
+
+/** 受保护路由的鉴权 loader */
+export const authLoader = createAuthLoader();
+
+/** 登录页 loader */
+export const loginRedirectLoader = createLoginRedirectLoader();

@@ -44,6 +44,9 @@ function mergeDefinitionsToRoutes(defs: RouteDefinition[], extra?: Partial<AppRo
       index: def.index,
       handle: def.handle,
       ...(extra ?? {}),
+      // 路由单独定义的 loader / shouldRevalidate 等会覆盖 extra 中的默认值
+      ...(def.loader != null && { loader: def.loader }),
+      ...(def.shouldRevalidate != null && { shouldRevalidate: def.shouldRevalidate }),
     };
 
     if (def.component) {
@@ -67,6 +70,7 @@ export const publicRoutes: AppRouteObject[] = [
     path: '/login',
     element: <Login />,
     loader: loginRedirectLoader,
+    shouldRevalidate: () => true,
     handle: {
       title: '登录',
       menu: { label: '登录', hide: true },
