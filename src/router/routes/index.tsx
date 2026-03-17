@@ -11,17 +11,24 @@ import { canAccessRoute } from '@/router/utils/routeAccess';
 /**
  * 通过 import.meta.glob 预扫描页面/布局，路径即 key
  * 添加新页面时只需在 routeDefinitions 中写 component 路径，无需在此维护
+ * 支持 @/pages/... 与 /src/pages/... 两种路径格式
  */
 const ROUTE_MODULES = import.meta.glob<{ default: React.ComponentType }>([
   '@/pages/**/index.tsx',
   '@/components/layout/**/index.tsx',
 ]);
 
+/** 将路径归一化为 glob 的 key 格式（@/ 开头），兼容 /src/ 写法 */
+function normalizeComponentPath(componentPath: string): string {
+  return componentPath.replace(/^\/src\//, '@/');
+}
+
 function getLazyComponent(componentPath: string) {
-  const loader = ROUTE_MODULES[componentPath];
+  const normalized = normalizeComponentPath(componentPath);
+  const loader = ROUTE_MODULES[normalized] ?? ROUTE_MODULES[componentPath];
   if (!loader) {
     /* eslint-disable-next-line no-console */
-    console.warn(`[router] 未找到组件: ${componentPath}`);
+    console.warn(`[router] 未找到组件: ${componentPath}，已尝试: ${normalized}`);
     return null;
   }
   return lazy(loader);
@@ -49,7 +56,9 @@ function mergeDefinitionsToRoutes(defs: RouteDefinition[], extra?: Partial<AppRo
       ...(def.shouldRevalidate != null && { shouldRevalidate: def.shouldRevalidate }),
     };
 
-    if (def.component) {
+    if (def.element != null) {
+      route.element = def.element;
+    } else if (def.component) {
       const LazyComponent = getLazyComponent(def.component);
       if (LazyComponent) {
         route.element = withSuspense(LazyComponent);

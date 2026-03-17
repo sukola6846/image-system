@@ -127,7 +127,7 @@ const AdminLayout: React.FC = () => {
           </Dropdown>
         </Layout.Header>
 
-        <Layout.Content className={styles.content}>
+        <Layout.Content className={styles.content} data-scroll-container>
           <AnimatedOutlet />
         </Layout.Content>
 

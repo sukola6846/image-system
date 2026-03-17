@@ -1,16 +1,21 @@
+import type { ReactNode } from 'react';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 import type { RouteHandle } from './types';
 
+import Home from '@/pages/home';
+
 /**
- * 纯路由定义（无 React 依赖）
- * 作为唯一数据源：routes 从此合并 element，AdminLayout 按需从此生成菜单
+ * 路由定义（作为唯一数据源：routes 从此合并 element，AdminLayout 按需从此生成菜单）
+ * 支持 component（懒加载）或 element（直接引用），element 优先
  */
 export interface RouteDefinition {
   path?: string;
   index?: boolean;
   handle?: RouteHandle;
-  /** 组件路径，mergeDefinitionsToRoutes 通过 lazy(import(path)) 加载，无需组件映射 */
+  /** 组件路径，mergeDefinitionsToRoutes 通过 lazy(import(path)) 加载，支持 @/ 或 /src/ 格式 */
   component?: string;
+  /** 直接引用的组件（与 component 二选一，element 优先），适用于首页、登录等核心模块 */
+  element?: ReactNode;
   /** 路由级 loader，会覆盖 extra 中的 authLoader，可在此做数据预加载、缓存等 */
   loader?: (args: LoaderFunctionArgs) => Promise<unknown> | unknown;
   /** 路由级 revalidate 策略，覆盖默认行为以支持缓存等 */
@@ -34,7 +39,7 @@ export const protectedRouteDefinitions: RouteDefinition[] = [
     children: [
       {
         index: true,
-        component: '/src/pages/home/index.tsx',
+        element: <Home />,
         handle: {
           title: '仪表盘 - 图片管理系统',
           menu: { label: '仪表盘', icon: 'DashboardOutlined', order: 0 },
@@ -55,7 +60,6 @@ export const protectedRouteDefinitions: RouteDefinition[] = [
             parentKey: 'image',
           },
           breadcrumb: '图片管理',
-          // breadcrumbHide: true,
           keepAlive: true,
           auth: [],
           roles: ['admin'],
