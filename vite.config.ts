@@ -14,6 +14,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  devtools: {
+    enabled: true,
+  },
   css: {
     preprocessorOptions: {
       scss: {
