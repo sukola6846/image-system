@@ -79,6 +79,8 @@ pnpm install
 # 启动开发服务器
 pnpm dev
 
+# 开发环境会自动启用 MSW，本地拦截并模拟 /api/* 接口
+
 # 构建生产版本
 pnpm build
 
@@ -91,9 +93,16 @@ pnpm preview
 ```
 src/
 ├── apis/                    # API 请求层
+│   ├── client.ts
+│   ├── types.ts
 │   ├── auth.ts
-│   ├── images.ts
-│   └── client.ts
+│   ├── user.ts
+│   └── images.ts
+├── lib/                     # 库配置
+│   └── queryClient.ts      # TanStack Query
+├── mocks/                   # MSW（仅开发）
+│   ├── browser.ts
+│   └── handlers/
 ├── assets/                   # 静态资源
 ├── components/               # 公共组件
 │   ├── common/               # 通用组件

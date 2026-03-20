@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom';
 import cn from 'classnames';
 import { KeepAlive } from 'react-activation';
+import { useQuery } from '@tanstack/react-query';
 import { Layout, Menu, Button, Dropdown } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { protectedRouteDefinitions } from '@/router/routeDefinitions';
@@ -15,6 +16,8 @@ import { AnimatedOutlet } from '@/components/AnimatedOutlet';
 import styles from './index.module.scss';
 import { useAuthStore } from '@/stores';
 import { useTabStore } from '@/stores/tabStore';
+import { getCurrentUser } from '@/apis/user';
+import { queryClient } from '@/lib/queryClient';
 
 const SIDER_COLLAPSED_KEY = 'admin-sider-collapsed';
 
@@ -25,10 +28,18 @@ const AdminLayout: React.FC = () => {
   const outlet = useOutlet();
   const pathname = location.pathname || '/';
   const logout = useAuthStore((s) => s.logout);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const token = useAuthStore((s) => s.token);
   const meta = useCurrentRouteMeta();
   const addTab = useTabStore((s) => s.addTab);
   const setActiveKey = useTabStore((s) => s.setActiveKey);
   const closeAllTabs = useTabStore((s) => s.closeAll);
+
+  const { data: currentUser, isPending: userLoading } = useQuery({
+    queryKey: ['user', 'me'],
+    queryFn: ({ signal }) => getCurrentUser({ signal }),
+    enabled: isAuthenticated && !!token,
+  });
 
   const filteredRoutes = useMemo(() => filterDefinitionsByAccess(protectedRouteDefinitions), []);
 
@@ -97,6 +108,7 @@ const AdminLayout: React.FC = () => {
       // 清除 tab
       closeAllTabs();
       logout();
+      queryClient.removeQueries({ queryKey: ['user', 'me'] });
 
       navigate('/login', { replace: true });
     } else if (key.startsWith('/')) {
@@ -147,7 +159,7 @@ const AdminLayout: React.FC = () => {
             placement="bottomRight"
           >
             <Button type="text" icon={<UserOutlined />} className={styles.headerBtn}>
-              用户
+              {userLoading ? '加载中…' : (currentUser?.name ?? '用户')}
             </Button>
           </Dropdown>
         </Layout.Header>

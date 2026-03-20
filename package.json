@@ -18,8 +18,10 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
+    "@tanstack/react-query": "^5.66.0",
     "antd": "^6.3.1",
     "classnames": "^2.5.1",
+    "axios": "^1.7.9",
     "react": "^19.2.0",
     "react-activation": "^0.13.4",
     "react-dom": "^19.2.0",
@@ -42,6 +44,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
+    "msw": "^2.7.3",
     "lint-staged": "^16.3.2",
     "prettier": "^3.8.1",
     "sass": "^1.83.0",
@@ -63,5 +66,8 @@
     "overrides": {
       "vite": "^8.0.0-beta.13"
     }
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
